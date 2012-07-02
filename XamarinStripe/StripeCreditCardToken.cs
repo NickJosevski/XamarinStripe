@@ -19,31 +19,33 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
-    public class StripeCreditCardToken {
-        [JsonProperty (PropertyName = "created")]
-        [JsonConverter (typeof(UnixDateTimeConverter))]
+namespace Xamarin.Payments.Stripe
+{
+    public class StripeCreditCardToken
+    {
+        [JsonProperty(PropertyName = "created")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime Created { get; set; }
 
-        [JsonProperty (PropertyName = "currency")]
+        [JsonProperty(PropertyName = "currency")]
         public string Currency { get; set; }
 
-        [JsonProperty (PropertyName = "used")]
+        [JsonProperty(PropertyName = "used")]
         public bool Used { get; set; }
 
-        [JsonProperty (PropertyName = "amount")]
+        [JsonProperty(PropertyName = "amount")]
         public int MinimumAmount { get; set; }
 
-        [JsonProperty (PropertyName = "object")]
+        [JsonProperty(PropertyName = "object")]
         public StripeObject Object { get; set; }
 
-        [JsonProperty (PropertyName = "livemode")]
+        [JsonProperty(PropertyName = "livemode")]
         public bool Live { get; set; }
 
-        [JsonProperty (PropertyName = "id")]
+        [JsonProperty(PropertyName = "id")]
         public string ID { get; set; }
 
-        [JsonProperty (PropertyName = "card")]
+        [JsonProperty(PropertyName = "card")]
         public StripeCard Card { get; set; }
     }
 }

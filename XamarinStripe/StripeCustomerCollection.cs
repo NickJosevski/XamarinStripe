@@ -21,28 +21,25 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
+namespace Xamarin.Payments.Stripe
+{
     [JsonObject(MemberSerialization.OptIn)]
-    public class StripeCustomerCollection : IEnumerable<StripeCustomer> {
-
+    public class StripeCustomerCollection : IEnumerable<StripeCustomer>
+    {
         [JsonProperty(PropertyName = "count")]
         public int Total { get; set; }
 
         [JsonProperty(PropertyName = "data")]
         public List<StripeCustomer> Customers { get; set; }
 
-        #region IEnumerable[StripeCustomer] implementation
-        public IEnumerator<StripeCustomer> GetEnumerator ()
+        public IEnumerator<StripeCustomer> GetEnumerator()
         {
-            return Customers.GetEnumerator ();
+            return Customers.GetEnumerator();
         }
-        #endregion
 
-        #region IEnumerable implementation
-        IEnumerator IEnumerable.GetEnumerator ()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator ();
+            return GetEnumerator();
         }
-        #endregion
     }
 }

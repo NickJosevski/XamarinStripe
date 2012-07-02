@@ -20,9 +20,11 @@ using System;
 using System.Text;
 using System.Web;
 
-namespace Xamarin.Payments.Stripe {
-    public class StripeInvoiceItemInfo : IUrlEncoderInfo {
-        public string CustomerID { get; set; }
+namespace Xamarin.Payments.Stripe
+{
+    public class StripeInvoiceItemInfo : IUrlEncoderInfo
+    {
+        public string CustomerId { get; set; }
 
         public int Amount { get; set; }
 
@@ -30,14 +32,14 @@ namespace Xamarin.Payments.Stripe {
 
         public string Description { get; set; }
 
-        #region IUrlEncoderInfo implementation
-        public virtual void UrlEncode (StringBuilder sb)
+        public virtual void UrlEncode(StringBuilder sb)
         {
-            sb.AppendFormat ("customer={0}&amount={1}&currency={2}&",
-                HttpUtility.UrlEncode (CustomerID), Amount, HttpUtility.UrlEncode (Currency ?? "usd"));
-            if (!string.IsNullOrEmpty (Description))
-                sb.AppendFormat ("description={0}&", HttpUtility.UrlEncode (Description));
+            sb.AppendFormat(
+                "customer={0}&amount={1}&currency={2}&",
+                HttpUtility.UrlEncode(CustomerId),
+                Amount,
+                HttpUtility.UrlEncode(Currency ?? "usd"));
+            if (!string.IsNullOrEmpty(Description)) sb.AppendFormat("description={0}&", HttpUtility.UrlEncode(Description));
         }
-        #endregion
     }
 }

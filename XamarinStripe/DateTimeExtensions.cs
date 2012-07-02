@@ -24,14 +24,14 @@ namespace Xamarin.Payments.Stripe
     {
         private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public static DateTime FromUnixEpoch(this int utc_unix)
+        public static DateTime FromUnixEpoch(this int utcUnix)
         {
-            return epoch.AddSeconds(utc_unix);
+            return epoch.AddSeconds(utcUnix);
         }
 
-        public static DateTime FromUnixEpoch(this long utc_unix)
+        public static DateTime FromUnixEpoch(this long utcUnix)
         {
-            return epoch.AddSeconds(utc_unix);
+            return epoch.AddSeconds(utcUnix);
         }
 
         public static long ToUnixEpoch(this DateTime dt)

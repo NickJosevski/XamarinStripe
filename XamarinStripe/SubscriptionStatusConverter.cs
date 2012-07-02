@@ -20,32 +20,44 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Xamarin.Payments.Stripe {
-    public class SubscriptionStatusConverter : JsonConverter {
+namespace Xamarin.Payments.Stripe
+{
+    public class SubscriptionStatusConverter : JsonConverter
+    {
         protected const string PastDue = "past_due";
 
-        public override bool CanConvert (Type objectType)
+        public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(StripeSubscriptionStatus);
         }
 
-        public override object ReadJson (JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType != JsonToken.String)
-                throw new Exception (string.Format ("Unexpected token parsing StripeSubscriptionStatus. Expected String, got {0}.", reader.TokenType));
+                throw new Exception(
+                    string.Format(
+                        "Unexpected token parsing StripeSubscriptionStatus. Expected String, got {0}.", reader.TokenType));
 
-            string value = reader.Value as string;
+            var value = reader.Value as string;
+
             if (value == PastDue)
+            {
                 return StripeSubscriptionStatus.PastDue;
-            return Enum.Parse (typeof(StripeSubscriptionStatus), value);
+            }
+
+            return Enum.Parse(typeof(StripeSubscriptionStatus), value);
         }
 
-        public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if ((StripeSubscriptionStatus) value == StripeSubscriptionStatus.PastDue)
-                writer.WriteValue (PastDue);
+            if ((StripeSubscriptionStatus)value == StripeSubscriptionStatus.PastDue)
+            {
+                writer.WriteValue(PastDue);
+            }
             else
-                writer.WriteValue (value.ToString ());
+            {
+                writer.WriteValue(value.ToString());
+            }
         }
     }
 }

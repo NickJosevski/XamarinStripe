@@ -18,9 +18,12 @@
  */
 using System;
 
-namespace Xamarin.Payments.Stripe {
-    public enum StripePlanInterval {
+namespace Xamarin.Payments.Stripe
+{
+    public enum StripePlanInterval
+    {
         Month,
+
         Year
     }
 }

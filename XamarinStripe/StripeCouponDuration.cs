@@ -18,10 +18,14 @@
  */
 using System;
 
-namespace Xamarin.Payments.Stripe {
-    public enum StripeCouponDuration {
+namespace Xamarin.Payments.Stripe
+{
+    public enum StripeCouponDuration
+    {
         Forever,
+
         Once,
+
         Repeating
     }
 }

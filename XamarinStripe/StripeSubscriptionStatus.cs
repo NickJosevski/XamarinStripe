@@ -18,13 +18,20 @@
  */
 using System;
 
-namespace Xamarin.Payments.Stripe {
-    public enum StripeSubscriptionStatus {
+namespace Xamarin.Payments.Stripe
+{
+    public enum StripeSubscriptionStatus
+    {
         Unknown,
+
         Trialing,
+
         Active,
+
         PastDue,
+
         Canceled,
+
         Unpaid
     }
 }

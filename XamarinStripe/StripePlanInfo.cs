@@ -20,8 +20,10 @@ using System;
 using System.Text;
 using System.Web;
 
-namespace Xamarin.Payments.Stripe {
-    public class StripePlanInfo : IUrlEncoderInfo {
+namespace Xamarin.Payments.Stripe
+{
+    public class StripePlanInfo : IUrlEncoderInfo
+    {
         public string ID { get; set; }
 
         public int Amount { get; set; }
@@ -34,16 +36,16 @@ namespace Xamarin.Payments.Stripe {
 
         public int TrialPeriod { get; set; }
 
-        #region IUrlEncoderInfo Members
-
-        public virtual void UrlEncode (StringBuilder sb)
+        public virtual void UrlEncode(StringBuilder sb)
         {
-            sb.AppendFormat ("id={0}&amount={1}&currency={2}&interval={3}&name={4}&",
-                HttpUtility.UrlEncode (ID), Amount, HttpUtility.UrlEncode (Currency ?? "usd"), HttpUtility.UrlEncode (Interval.ToString().ToLower ()), HttpUtility.UrlEncode (Name));
-            if (TrialPeriod > 0)
-                sb.AppendFormat ("trial_period_days={0}&", TrialPeriod);
+            sb.AppendFormat(
+                "id={0}&amount={1}&currency={2}&interval={3}&name={4}&",
+                HttpUtility.UrlEncode(ID),
+                Amount,
+                HttpUtility.UrlEncode(Currency ?? "usd"),
+                HttpUtility.UrlEncode(Interval.ToString().ToLower()),
+                HttpUtility.UrlEncode(Name));
+            if (TrialPeriod > 0) sb.AppendFormat("trial_period_days={0}&", TrialPeriod);
         }
-
-        #endregion
     }
 }

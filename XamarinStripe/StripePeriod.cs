@@ -19,15 +19,17 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
-    [JsonObject (MemberSerialization.OptIn)]
-    public class StripePeriod {
-        [JsonProperty (PropertyName = "start")]
-        [JsonConverter (typeof(UnixDateTimeConverter))]
+namespace Xamarin.Payments.Stripe
+{
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripePeriod
+    {
+        [JsonProperty(PropertyName = "start")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime Start { get; set; }
 
-        [JsonProperty (PropertyName = "end")]
-        [JsonConverter (typeof(UnixDateTimeConverter))]
+        [JsonProperty(PropertyName = "end")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime End { get; set; }
     }
 }

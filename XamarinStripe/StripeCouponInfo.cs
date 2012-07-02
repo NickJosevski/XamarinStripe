@@ -20,9 +20,11 @@ using System;
 using System.Text;
 using System.Web;
 
-namespace Xamarin.Payments.Stripe {
-    public class StripeCouponInfo : IUrlEncoderInfo {
-        public string ID { get; set; }
+namespace Xamarin.Payments.Stripe
+{
+    public class StripeCouponInfo : IUrlEncoderInfo
+    {
+        public string Id { get; set; }
 
         public int PercentOff { get; set; }
 
@@ -34,19 +36,15 @@ namespace Xamarin.Payments.Stripe {
 
         public DateTime RedeemBy { get; set; }
 
-        #region IUrlEncoderInfo implementation
-        public virtual void UrlEncode (StringBuilder sb)
+        public virtual void UrlEncode(StringBuilder sb)
         {
-            sb.AppendFormat ("percent_off={0}&duration={1}&", PercentOff, HttpUtility.UrlEncode (Duration.ToString ().ToLower ()));
-            if (!string.IsNullOrEmpty (ID))
-                sb.AppendFormat ("id={0}&", HttpUtility.UrlEncode (ID));
-            if (MonthsForDuration > 0)
-                sb.AppendFormat ("duration_in_months={0}&", MonthsForDuration);
-            if (MaxRedemptions > 0)
-                sb.AppendFormat ("max_redemptions={0}&", MaxRedemptions);
-            if (RedeemBy != DateTime.MinValue)
-                sb.AppendFormat ("redeem_by={0}&", RedeemBy.ToUnixEpoch ());
+            sb.AppendFormat(
+                "percent_off={0}&duration={1}&", PercentOff, HttpUtility.UrlEncode(Duration.ToString().ToLower()));
+
+            if (!string.IsNullOrEmpty(Id)) sb.AppendFormat("id={0}&", HttpUtility.UrlEncode(Id));
+            if (MonthsForDuration > 0) sb.AppendFormat("duration_in_months={0}&", MonthsForDuration);
+            if (MaxRedemptions > 0) sb.AppendFormat("max_redemptions={0}&", MaxRedemptions);
+            if (RedeemBy != DateTime.MinValue) sb.AppendFormat("redeem_by={0}&", RedeemBy.ToUnixEpoch());
         }
-        #endregion
     }
 }

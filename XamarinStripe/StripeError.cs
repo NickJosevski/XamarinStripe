@@ -21,13 +21,17 @@ using Newtonsoft.Json;
 namespace Xamarin.Payments.Stripe
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class StripeError {
-        [JsonProperty (PropertyName="code")]
+    public class StripeError
+    {
+        [JsonProperty(PropertyName = "code")]
         public string Code { get; set; }
+
         [JsonProperty(PropertyName = "param")]
         public string Parameter { get; set; }
+
         [JsonProperty(PropertyName = "type")]
         public string ErrorType { get; set; }
+
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
     }

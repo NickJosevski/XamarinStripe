@@ -20,64 +20,62 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
-    [JsonObject (MemberSerialization.OptIn)]
-    public class StripeInvoice : IEnumerable<StripeInvoiceLineItem> {
-        [JsonProperty (PropertyName = "created")]
-        [JsonConverter (typeof (UnixDateTimeConverter))]
+namespace Xamarin.Payments.Stripe
+{
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripeInvoice : IEnumerable<StripeInvoiceLineItem>
+    {
+        [JsonProperty(PropertyName = "created")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? Created { get; set; }
 
-        [JsonProperty (PropertyName = "subtotal")]
+        [JsonProperty(PropertyName = "subtotal")]
         public int Subtotal { get; set; }
 
-        [JsonProperty (PropertyName = "total")]
+        [JsonProperty(PropertyName = "total")]
         public int Total { get; set; }
 
-        [JsonProperty (PropertyName = "lines")]
+        [JsonProperty(PropertyName = "lines")]
         public StripeInvoiceLineItems LineItems { get; set; }
 
-        [JsonProperty (PropertyName = "object")]
+        [JsonProperty(PropertyName = "object")]
         public StripeObject Object { get; set; }
 
-        [JsonProperty (PropertyName = "id")]
+        [JsonProperty(PropertyName = "id")]
         public string ID { get; set; }
 
-        [JsonProperty (PropertyName = "attempted")]
+        [JsonProperty(PropertyName = "attempted")]
         public bool Attempted { get; set; }
 
-        [JsonProperty (PropertyName = "closed")]
+        [JsonProperty(PropertyName = "closed")]
         public bool Closed { get; set; }
 
-        [JsonProperty (PropertyName = "customer")]
+        [JsonProperty(PropertyName = "customer")]
         public string CustomerID { get; set; }
 
-        [JsonProperty (PropertyName = "date")]
-        [JsonConverter (typeof (UnixDateTimeConverter))]
+        [JsonProperty(PropertyName = "date")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime Date { get; set; }
 
-        [JsonProperty (PropertyName = "paid")]
+        [JsonProperty(PropertyName = "paid")]
         public bool Paid { get; set; }
 
-        [JsonProperty (PropertyName = "period_start")]
-        [JsonConverter (typeof (UnixDateTimeConverter))]
+        [JsonProperty(PropertyName = "period_start")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime Start { get; set; }
 
-        [JsonProperty (PropertyName = "period_end")]
-        [JsonConverter (typeof (UnixDateTimeConverter))]
+        [JsonProperty(PropertyName = "period_end")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime End { get; set; }
 
-        #region IEnumerable[StripeInvoiceLineItem] implementation
-        public IEnumerator<StripeInvoiceLineItem> GetEnumerator ()
+        public IEnumerator<StripeInvoiceLineItem> GetEnumerator()
         {
-            return LineItems.GetEnumerator ();
+            return LineItems.GetEnumerator();
         }
-        #endregion
 
-        #region IEnumerable implementation
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return GetEnumerator ();
+            return GetEnumerator();
         }
-        #endregion
     }
 }

@@ -18,12 +18,16 @@
  */
 using System;
 
-namespace Xamarin.Payments.Stripe {
-    public enum StripeCvcCheck {
+namespace Xamarin.Payments.Stripe
+{
+    public enum StripeCvcCheck
+    {
         Unknown,
+
         Pass,
+
         Fail,
+
         Unchecked
     }
 }
-

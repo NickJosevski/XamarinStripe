@@ -50,13 +50,13 @@ namespace Xamarin.Payments.Stripe
 
         public virtual void UrlEncode(StringBuilder sb)
         {
-            if (String.IsNullOrEmpty(Number)) throw new ArgumentNullException("Number");
+            if (string.IsNullOrEmpty(Number)) throw new ArgumentNullException("Number");
 
-            bool is_number = Char.IsDigit(Number[0]);
-            if (is_number && (ExpirationMonth <= 0 || ExpirationMonth > 12)) throw new ArgumentOutOfRangeException("ExpirationMonth");
-            if (is_number && ExpirationYear <= 0) throw new ArgumentOutOfRangeException("ExpirationYear");
+            var isNumber = Char.IsDigit(Number[0]);
+            if (isNumber && (ExpirationMonth <= 0 || ExpirationMonth > 12)) throw new ArgumentOutOfRangeException("ExpirationMonth");
+            if (isNumber && ExpirationYear <= 0) throw new ArgumentOutOfRangeException("ExpirationYear");
 
-            if (!is_number)
+            if (!isNumber)
             {
                 // One-time token
                 sb.AppendFormat("card={0}&", HttpUtility.UrlEncode(Number));
@@ -67,13 +67,14 @@ namespace Xamarin.Payments.Stripe
                 HttpUtility.UrlEncode(Number),
                 ExpirationMonth,
                 ExpirationYear);
-            if (!String.IsNullOrEmpty(CVC)) sb.AppendFormat("card[cvc]={0}&", HttpUtility.UrlEncode(CVC));
-            if (!String.IsNullOrEmpty(FullName)) sb.AppendFormat("card[name]={0}&", HttpUtility.UrlEncode(FullName));
-            if (!String.IsNullOrEmpty(AddressLine1)) sb.AppendFormat("card[address_line1]={0}&", HttpUtility.UrlEncode(AddressLine1));
-            if (!String.IsNullOrEmpty(AddressLine2)) sb.AppendFormat("card[address_line2]={0}&", HttpUtility.UrlEncode(AddressLine2));
-            if (!String.IsNullOrEmpty(ZipCode)) sb.AppendFormat("card[address_zip]={0}&", HttpUtility.UrlEncode(ZipCode));
-            if (!String.IsNullOrEmpty(StateOrProvince)) sb.AppendFormat("card[address_state]={0}&", HttpUtility.UrlEncode(StateOrProvince));
-            if (!String.IsNullOrEmpty(Country)) sb.AppendFormat("card[address_country]={0}&", HttpUtility.UrlEncode(Country));
+
+            if (!string.IsNullOrEmpty(CVC)) sb.AppendFormat("card[cvc]={0}&", HttpUtility.UrlEncode(CVC));
+            if (!string.IsNullOrEmpty(FullName)) sb.AppendFormat("card[name]={0}&", HttpUtility.UrlEncode(FullName));
+            if (!string.IsNullOrEmpty(AddressLine1)) sb.AppendFormat("card[address_line1]={0}&", HttpUtility.UrlEncode(AddressLine1));
+            if (!string.IsNullOrEmpty(AddressLine2)) sb.AppendFormat("card[address_line2]={0}&", HttpUtility.UrlEncode(AddressLine2));
+            if (!string.IsNullOrEmpty(ZipCode)) sb.AppendFormat("card[address_zip]={0}&", HttpUtility.UrlEncode(ZipCode));
+            if (!string.IsNullOrEmpty(StateOrProvince)) sb.AppendFormat("card[address_state]={0}&", HttpUtility.UrlEncode(StateOrProvince));
+            if (!string.IsNullOrEmpty(Country)) sb.AppendFormat("card[address_country]={0}&", HttpUtility.UrlEncode(Country));
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Xamarin.Payments.Stripe
         {
         }
 
-        internal static StripeException GetFromJSON (HttpStatusCode code, string json)
+        internal static StripeException GetFromJson (HttpStatusCode code, string json)
         {
             var result = JsonConvert.DeserializeObject<StripeException> (json);
             result.StatusCode = code;

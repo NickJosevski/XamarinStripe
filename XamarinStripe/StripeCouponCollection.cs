@@ -20,27 +20,25 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
-    [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCouponCollection : IEnumerable<StripeCoupon> {
-        [JsonProperty (PropertyName = "count")]
+namespace Xamarin.Payments.Stripe
+{
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripeCouponCollection : IEnumerable<StripeCoupon>
+    {
+        [JsonProperty(PropertyName = "count")]
         public int Total { get; set; }
 
-        [JsonProperty (PropertyName = "data")]
+        [JsonProperty(PropertyName = "data")]
         public List<StripeCoupon> Coupons { get; set; }
 
-        #region IEnumerable[StripeCoupon] implementation
-        public IEnumerator<StripeCoupon> GetEnumerator ()
+        public IEnumerator<StripeCoupon> GetEnumerator()
         {
-            return Coupons.GetEnumerator ();
+            return Coupons.GetEnumerator();
         }
-        #endregion
 
-        #region IEnumerable implementation
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return GetEnumerator ();
+            return GetEnumerator();
         }
-        #endregion
     }
 }

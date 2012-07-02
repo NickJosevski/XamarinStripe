@@ -107,7 +107,7 @@ namespace Xamarin.Payments.Stripe
                     var resp = wexc.Response as HttpWebResponse;
                     if (resp != null) status_code = resp.StatusCode;
 
-                    if ((int)status_code <= 500) throw StripeException.GetFromJSON(status_code, json_error);
+                    if ((int)status_code <= 500) throw StripeException.GetFromJson(status_code, json_error);
                 }
                 throw;
             }
@@ -424,26 +424,26 @@ namespace Xamarin.Payments.Stripe
 
         public StripeInvoiceItem CreateInvoiceItem(StripeInvoiceItemInfo item)
         {
-            if (string.IsNullOrEmpty(item.CustomerID)) throw new ArgumentNullException("item.CustomerID");
-            StringBuilder str = UrlEncode(item);
-            string ep = string.Format("{0}/invoiceitems", api_endpoint);
-            string json = DoRequest(ep, "POST", str.ToString());
+            if (string.IsNullOrEmpty(item.CustomerId)) throw new ArgumentNullException("item.CustomerId");
+            var str = UrlEncode(item);
+            var ep = string.Format("{0}/invoiceitems", api_endpoint);
+            var json = DoRequest(ep, "POST", str.ToString());
             return JsonConvert.DeserializeObject<StripeInvoiceItem>(json);
         }
 
         public StripeInvoiceItem GetInvoiceItem(string invoiceItemId)
         {
             if (string.IsNullOrEmpty(invoiceItemId)) throw new ArgumentNullException("invoiceItemId");
-            string ep = string.Format("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
-            string json = DoRequest(ep);
+            var ep = string.Format("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
+            var json = DoRequest(ep);
             return JsonConvert.DeserializeObject<StripeInvoiceItem>(json);
         }
 
         public StripeInvoiceItem UpdateInvoiceItem(string invoiceItemId, StripeInvoiceItemInfo item)
         {
             var str = UrlEncode(item);
-            string ep = string.Format("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
-            string json = DoRequest(ep, "POST", str.ToString());
+            var ep = string.Format("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
+            var json = DoRequest(ep, "POST", str.ToString());
             return JsonConvert.DeserializeObject<StripeInvoiceItem>(json);
         }
 
@@ -481,8 +481,8 @@ namespace Xamarin.Payments.Stripe
             if (!string.IsNullOrEmpty(customerId)) str.AppendFormat("customer={0}&", HttpUtility.UrlEncode(customerId));
 
             str.Length--;
-            string ep = String.Format("{0}/invoiceitems?{1}", api_endpoint, str);
-            string json = DoRequest(ep);
+            var ep = String.Format("{0}/invoiceitems?{1}", api_endpoint, str);
+            var json = DoRequest(ep);
             var invoiceItems = JsonConvert.DeserializeObject<StripeInvoiceItemCollection>(json);
             total = invoiceItems.Total;
             return invoiceItems.InvoiceItems;
@@ -585,7 +585,7 @@ namespace Xamarin.Payments.Stripe
             if (count > 100) throw new ArgumentOutOfRangeException("count");
             string ep = string.Format("{0}/coupons?offset={0}&count={1}", api_endpoint, offset, count);
             string json = DoRequest(ep);
-            StripeCouponCollection coupons = JsonConvert.DeserializeObject<StripeCouponCollection>(json);
+            var coupons = JsonConvert.DeserializeObject<StripeCouponCollection>(json);
             total = coupons.Total;
             return coupons.Coupons;
         }

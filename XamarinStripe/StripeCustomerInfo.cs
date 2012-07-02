@@ -21,33 +21,37 @@ using System.Globalization;
 using System.Text;
 using System.Web;
 
-namespace Xamarin.Payments.Stripe {
-    public class StripeCustomerInfo : IUrlEncoderInfo {
+namespace Xamarin.Payments.Stripe
+{
+    public class StripeCustomerInfo : IUrlEncoderInfo
+    {
         public StripeCreditCardInfo Card { get; set; }
+
         // The strings allow ""
         public string Coupon { get; set; }
-        public string Email { get; set; } //TODO: Validate this using System.Net.Mail.MailAddress?
+
+        public string Email { get; set; }
+
+        // TODO: Validate this using System.Net.Mail.MailAddress?
         public string Description { get; set; }
+
         public string Plan { get; set; }
+
         public DateTime? TrialEnd { get; set; }
+
         public bool? Validate { get; set; }
 
-        public virtual void UrlEncode (StringBuilder sb)
+        public virtual void UrlEncode(StringBuilder sb)
         {
-            if (Card != null)
-                Card.UrlEncode (sb);
-            if (Coupon != null)
-                sb.AppendFormat ("coupon={0}&", HttpUtility.UrlEncode (Coupon));
-            if (Email != null)
-                sb.AppendFormat ("email={0}&", HttpUtility.UrlEncode (Email));
-            if (Description != null)
-                sb.AppendFormat ("description={0}&", HttpUtility.UrlEncode (Description));
-            if (Plan != null)
-                sb.AppendFormat ("plan={0}&", HttpUtility.UrlEncode (Plan));
-            if (TrialEnd.HasValue)
-                sb.AppendFormat ("trial_end={0}&", TrialEnd.Value.ToUnixEpoch ());
+            if (Card != null) Card.UrlEncode(sb);
+            if (Coupon != null) sb.AppendFormat("coupon={0}&", HttpUtility.UrlEncode(Coupon));
+            if (Email != null) sb.AppendFormat("email={0}&", HttpUtility.UrlEncode(Email));
+            if (Description != null) sb.AppendFormat("description={0}&", HttpUtility.UrlEncode(Description));
+            if (Plan != null) sb.AppendFormat("plan={0}&", HttpUtility.UrlEncode(Plan));
+            if (TrialEnd.HasValue) sb.AppendFormat("trial_end={0}&", TrialEnd.Value.ToUnixEpoch());
             if (Validate.HasValue)
-                sb.AppendFormat ("validate={0}&", Validate.Value.ToString (CultureInfo.InvariantCulture).ToLowerInvariant ());
+                sb.AppendFormat(
+                    "validate={0}&", Validate.Value.ToString(CultureInfo.InvariantCulture).ToLowerInvariant());
         }
     }
 }

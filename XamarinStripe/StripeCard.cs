@@ -40,7 +40,7 @@ namespace Xamarin.Payments.Stripe
         public string Last4 { get; set; }
 
         [JsonProperty(PropertyName = "id")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "cvc_check")]
         public StripeCvcCheck CvcCheck { get; set; }

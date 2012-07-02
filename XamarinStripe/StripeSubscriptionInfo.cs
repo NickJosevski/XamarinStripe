@@ -21,8 +21,10 @@ using System.Globalization;
 using System.Text;
 using System.Web;
 
-namespace Xamarin.Payments.Stripe {
-    public class StripeSubscriptionInfo : IUrlEncoderInfo {
+namespace Xamarin.Payments.Stripe
+{
+    public class StripeSubscriptionInfo : IUrlEncoderInfo
+    {
         public string Plan { get; set; }
 
         public string Coupon { get; set; }
@@ -33,17 +35,13 @@ namespace Xamarin.Payments.Stripe {
 
         public StripeCreditCardInfo Card { get; set; }
 
-        public virtual void UrlEncode (StringBuilder sb)
+        public virtual void UrlEncode(StringBuilder sb)
         {
-            sb.AppendFormat ("plan={0}&", HttpUtility.UrlEncode (Plan));
-            if (!string.IsNullOrEmpty (Coupon))
-                sb.AppendFormat ("coupon={0}&", HttpUtility.UrlEncode (Coupon));
-            if (Prorate != null && Prorate.HasValue)
-                sb.AppendFormat ("prorate={0}&", Prorate.Value.ToString (CultureInfo.InvariantCulture).ToLowerInvariant ());
-            if (TrialEnd != null)
-                sb.AppendFormat ("trial_end={0}&", TrialEnd.Value.ToUnixEpoch ());
-            if (Card != null)
-                Card.UrlEncode(sb);
+            sb.AppendFormat("plan={0}&", HttpUtility.UrlEncode(Plan));
+            if (!string.IsNullOrEmpty(Coupon)) sb.AppendFormat("coupon={0}&", HttpUtility.UrlEncode(Coupon));
+            if (Prorate.HasValue) sb.AppendFormat("prorate={0}&", Prorate.Value.ToString(CultureInfo.InvariantCulture).ToLowerInvariant());
+            if (TrialEnd != null) sb.AppendFormat("trial_end={0}&", TrialEnd.Value.ToUnixEpoch());
+            if (Card != null) Card.UrlEncode(sb);
         }
     }
 }

@@ -19,32 +19,34 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
-    [JsonObject (MemberSerialization.OptIn)]
-    public class StripeInvoiceItem : StripeInvoiceLineItem {
-        [JsonProperty (PropertyName = "customer")]
-        public string CustomerID { get; set; }
+namespace Xamarin.Payments.Stripe
+{
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripeInvoiceItem : StripeInvoiceLineItem
+    {
+        [JsonProperty(PropertyName = "customer")]
+        public string CustomerId { get; set; }
 
-        [JsonProperty (PropertyName = "currency")]
+        [JsonProperty(PropertyName = "currency")]
         public string Currency { get; set; }
 
-        [JsonProperty (PropertyName = "livemode")]
+        [JsonProperty(PropertyName = "livemode")]
         public bool LiveMode { get; set; }
 
-        [JsonProperty (PropertyName = "date")]
-        [JsonConverter (typeof (UnixDateTimeConverter))]
+        [JsonProperty(PropertyName = "date")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime Date { get; set; }
 
-        [JsonProperty (PropertyName = "object")]
+        [JsonProperty(PropertyName = "object")]
         public StripeObject Object { get; set; }
 
-        [JsonProperty (PropertyName = "description")]
+        [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
 
-        [JsonProperty (PropertyName = "id")]
-        public string ID { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
-        [JsonProperty (PropertyName = "deleted")]
+        [JsonProperty(PropertyName = "deleted")]
         public bool? Deleted { get; set; }
     }
 }
