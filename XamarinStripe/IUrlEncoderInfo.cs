@@ -18,8 +18,10 @@
  */using System;
 using System.Text;
 
-namespace Xamarin.Payments.Stripe {
-    public interface IUrlEncoderInfo {
-        void UrlEncode (StringBuilder sb);
+namespace Xamarin.Payments.Stripe
+{
+    public interface IUrlEncoderInfo
+    {
+        void UrlEncode(StringBuilder sb);
     }
 }

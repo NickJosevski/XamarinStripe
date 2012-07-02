@@ -19,28 +19,30 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
-    [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCoupon {
-        [JsonProperty (PropertyName = "times_redeemed")]
+namespace Xamarin.Payments.Stripe
+{
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripeCoupon
+    {
+        [JsonProperty(PropertyName = "times_redeemed")]
         public int TimesRedeemed { get; set; }
 
-        [JsonProperty (PropertyName = "livemode")]
+        [JsonProperty(PropertyName = "livemode")]
         public bool LiveMode { get; set; }
 
-        [JsonProperty (PropertyName = "object")]
+        [JsonProperty(PropertyName = "object")]
         public StripeObject Object { get; set; }
 
-        [JsonProperty (PropertyName = "duration")]
+        [JsonProperty(PropertyName = "duration")]
         public StripeCouponDuration Duration { get; set; }
 
-        [JsonProperty (PropertyName = "id")]
+        [JsonProperty(PropertyName = "id")]
         public string ID { get; set; }
 
-        [JsonProperty (PropertyName = "percent_off")]
+        [JsonProperty(PropertyName = "percent_off")]
         public int PercentOff { get; set; }
 
-        [JsonProperty (PropertyName = "deleted")]
+        [JsonProperty(PropertyName = "deleted")]
         public bool? Deleted { get; set; }
     }
 }

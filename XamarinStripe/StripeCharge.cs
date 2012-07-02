@@ -20,35 +20,49 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
-    [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCharge {
-        [JsonProperty (PropertyName = "attempted")]
+namespace Xamarin.Payments.Stripe
+{
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripeCharge
+    {
+        [JsonProperty(PropertyName = "attempted")]
         public bool Attempted { get; set; }
-        [JsonProperty (PropertyName = "refunded")]
+
+        [JsonProperty(PropertyName = "refunded")]
         public bool Refunded { get; set; }
-        [JsonProperty (PropertyName = "amount_refunded")]
+
+        [JsonProperty(PropertyName = "amount_refunded")]
         public int AmountRefunded { get; set; }
-        [JsonProperty (PropertyName = "paid")]
+
+        [JsonProperty(PropertyName = "paid")]
         public bool Paid { get; set; }
-        [JsonProperty (PropertyName = "amount")]
+
+        [JsonProperty(PropertyName = "amount")]
         public int Amount { get; set; }
-        [JsonProperty (PropertyName = "fee")]
+
+        [JsonProperty(PropertyName = "fee")]
         public int Fee { get; set; }
-        [JsonProperty (PropertyName = "id")]
+
+        [JsonProperty(PropertyName = "id")]
         public string ID { get; set; }
-        [JsonProperty (PropertyName = "livemode")]
+
+        [JsonProperty(PropertyName = "livemode")]
         public bool LiveMode { get; set; }
-        [JsonProperty (PropertyName = "description")]
+
+        [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
-        [JsonProperty (PropertyName = "currency")]
+
+        [JsonProperty(PropertyName = "currency")]
         public string Currency { get; set; }
-        [JsonProperty (PropertyName = "created")]
-        [JsonConverter (typeof (UnixDateTimeConverter))]
+
+        [JsonProperty(PropertyName = "created")]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? Created { get; set; }
-        [JsonProperty (PropertyName = "object")]
+
+        [JsonProperty(PropertyName = "object")]
         public StripeObject Object { get; set; }
-        [JsonProperty (PropertyName = "card")]
+
+        [JsonProperty(PropertyName = "card")]
         public StripeCard Card { get; set; }
     }
 }

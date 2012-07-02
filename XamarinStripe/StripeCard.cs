@@ -19,24 +19,33 @@
  */
 using Newtonsoft.Json;
 
-namespace Xamarin.Payments.Stripe {
-    [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCard {
-        [JsonProperty (PropertyName = "type")]
+namespace Xamarin.Payments.Stripe
+{
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripeCard
+    {
+        [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
-        [JsonProperty (PropertyName = "country")]
+
+        [JsonProperty(PropertyName = "country")]
         public string Country { get; set; }
-        [JsonProperty (PropertyName = "exp_month")]
+
+        [JsonProperty(PropertyName = "exp_month")]
         public int ExpirationMonth { get; set; }
-        [JsonProperty (PropertyName = "exp_year")]
+
+        [JsonProperty(PropertyName = "exp_year")]
         public int ExpirationYear { get; set; }
-        [JsonProperty (PropertyName = "last4")]
+
+        [JsonProperty(PropertyName = "last4")]
         public string Last4 { get; set; }
-        [JsonProperty (PropertyName = "id")]
+
+        [JsonProperty(PropertyName = "id")]
         public string ID { get; set; }
-        [JsonProperty (PropertyName = "cvc_check")]
+
+        [JsonProperty(PropertyName = "cvc_check")]
         public StripeCvcCheck CvcCheck { get; set; }
-        [JsonProperty (PropertyName = "object")]
+
+        [JsonProperty(PropertyName = "object")]
         public StripeObject Object { get; set; }
     }
 }

@@ -18,16 +18,26 @@
  */
 using System;
 
-namespace Xamarin.Payments.Stripe {
-    public enum StripeObject {
+namespace Xamarin.Payments.Stripe
+{
+    public enum StripeObject
+    {
         Unknown,
+
         Card,
+
         Charge,
+
         Customer,
+
         InvoiceItem,
+
         Invoice,
+
         Plan,
+
         Subscription,
+
         Token
     }
 }
