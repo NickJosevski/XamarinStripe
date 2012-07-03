@@ -18,20 +18,23 @@
  */
 using System;
 
+using Newtonsoft.Json;
+
 namespace Xamarin.Payments.Stripe
 {
+    // NOTE: lowercase and using underscore to match API specifications
     public enum StripeSubscriptionStatus
     {
-        Unknown,
+        unknown,
 
-        Trialing,
+        trialing,
 
-        Active,
+        active,
 
-        PastDue,
+        past_due,
 
-        Canceled,
+        canceled,
 
-        Unpaid
+        unpaid
     }
 }

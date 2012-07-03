@@ -209,9 +209,17 @@ namespace Xamarin.Payments.Stripe
             str.Length--;
             var ep = string.Format("{0}/charges?{1}", ApiEndpoint, str);
             var json = DoRequest(ep);
-            var charges = JsonConvert.DeserializeObject<StripeChargeCollection>(json);
-            total = charges.Total;
-            return charges.Charges;
+            try
+            {
+                var charges = JsonConvert.DeserializeObject<StripeChargeCollection>(json);
+                total = charges.Total;
+                return charges.Charges;
+            }
+            catch (Exception ex)
+            {
+                var jsonDeserialzeEx = ex.Message;
+                throw;
+            }
         }
 
         #endregion
@@ -438,7 +446,7 @@ namespace Xamarin.Payments.Stripe
             return JsonConvert.DeserializeObject<StripeInvoiceItem>(json);
         }
 
-        public StripeInvoiceItem UpdateInvoiceItem(string invoiceItemId, StripeInvoiceItemInfo item)
+        public StripeInvoiceItem UpdateInvoiceItem(string invoiceItemId, StripeInvoiceItemUpdateInfo item)
         {
             var str = UrlEncode(item);
             var ep = string.Format("{0}/invoiceitems/{1}", ApiEndpoint, invoiceItemId);
@@ -549,7 +557,7 @@ namespace Xamarin.Payments.Stripe
         {
             if (coupon == null) throw new ArgumentNullException("coupon");
             if (coupon.PercentOff < 1 || coupon.PercentOff > 100) throw new ArgumentOutOfRangeException("coupon.PercentOff");
-            if (coupon.Duration == StripeCouponDuration.Repeating && coupon.MonthsForDuration < 1) throw new ArgumentException("MonthsForDuration must be greater than 1 when Duration = Repeating");
+            if (coupon.Duration == StripeCouponDuration.repeating && coupon.MonthsForDuration < 1) throw new ArgumentException("MonthsForDuration must be greater than 1 when Duration = Repeating");
             var str = UrlEncode(coupon);
             var ep = string.Format("{0}/coupons", ApiEndpoint);
             var json = DoRequest(ep, "POST", str.ToString());

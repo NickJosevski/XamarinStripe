@@ -20,10 +20,11 @@ using System;
 
 namespace Xamarin.Payments.Stripe
 {
+    // NOTE: lowercase and using underscore to match API specifications
     public enum StripePlanInterval
     {
-        Month,
+        month,
 
-        Year
+        year
     }
 }

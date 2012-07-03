@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 using System;
+using System.Collections.Generic;
+
 using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe
@@ -42,6 +44,9 @@ namespace Xamarin.Payments.Stripe
 
         [JsonProperty(PropertyName = "fee")]
         public int Fee { get; set; }
+
+        [JsonProperty(PropertyName = "fee_details")]
+        public List<StripeFeeDetails> FeeDetails { get; set; }
 
         [JsonProperty(PropertyName = "id")]
         public string ID { get; set; }

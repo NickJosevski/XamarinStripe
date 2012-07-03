@@ -20,24 +20,25 @@ using System;
 
 namespace Xamarin.Payments.Stripe
 {
+    // NOTE: lowercase and using underscore to match API specifications
     public enum StripeObject
     {
-        Unknown,
+        unknown,
 
-        Card,
+        card,
 
-        Charge,
+        charge,
 
-        Customer,
+        customer,
 
-        InvoiceItem,
+        invoiceItem,
 
-        Invoice,
+        invoice,
 
-        Plan,
+        plan,
 
-        Subscription,
+        subscription,
 
-        Token
+        token
     }
 }

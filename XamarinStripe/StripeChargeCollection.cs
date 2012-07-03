@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class StripeChargeCollection : IEnumerable<StripeCharge>
     {
         [JsonProperty(PropertyName = "count")]

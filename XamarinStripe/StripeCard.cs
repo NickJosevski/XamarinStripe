@@ -48,4 +48,23 @@ namespace Xamarin.Payments.Stripe
         [JsonProperty(PropertyName = "object")]
         public StripeObject Object { get; set; }
     }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripeFeeDetails
+    {
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
+
+        [JsonProperty(PropertyName = "amount")]
+        public int Amount { get; set; }
+
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
+
+        [JsonProperty(PropertyName = "application")]
+        public string Application { get; set; }
+
+        [JsonProperty(PropertyName = "currency")]
+        public string Currency { get; set; }
+    }
 }

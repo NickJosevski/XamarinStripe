@@ -23,13 +23,12 @@ namespace Tests.XamarinStripe
             _payment = new StripePayment("opWnpofZHJ9tqEnGszFZTfZAmHKmz9Yz");
         }
 
-
-        public static StripeCreditCardInfo GetCC()
+        public static StripeCreditCardInfo GetValidCreditCard()
         {
             StripeCreditCardInfo cc = new StripeCreditCardInfo();
-            cc.CVC = "1234";
-            cc.ExpirationMonth = 6;
-            cc.ExpirationYear = 2012;
+            cc.CVC = "123";
+            cc.ExpirationMonth = DateTime.Now.Month + 2;
+            cc.ExpirationYear = DateTime.Now.Year + 1;
             cc.Number = "4242424242424242";
             return cc;
         }
@@ -39,8 +38,8 @@ namespace Tests.XamarinStripe
             return new StripePlanInfo
             {
                 Amount = 1999,
-                ID = "myplan",
-                Interval = StripePlanInterval.Month,
+                ID = "myplan" + DateTime.Now.Ticks,
+                Interval = StripePlanInterval.month,
                 Name = "My standard plan",
                 TrialPeriod = 7
             };
@@ -51,10 +50,15 @@ namespace Tests.XamarinStripe
             return new StripeInvoiceItemInfo { Amount = 1999, Description = "Invoice item: " + Guid.NewGuid().ToString() };
         }
 
+        public static StripeInvoiceItemUpdateInfo GetInvoiceItemUpdateInfo()
+        {
+            return new StripeInvoiceItemUpdateInfo { Amount = 1999, Description = "Invoice item: " + Guid.NewGuid().ToString() };
+        }
+
         [Test]
         public void SimpleCharge()
         {
-            StripeCreditCardInfo cc = GetCC();
+            StripeCreditCardInfo cc = GetValidCreditCard();
             StripeCharge charge = _payment.Charge(5001, "usd", cc, "Test charge");
             Console.WriteLine(charge);
             string charge_id = charge.ID;
@@ -68,7 +72,7 @@ namespace Tests.XamarinStripe
         [Test]
         public void PartialRefund()
         {
-            StripeCreditCardInfo cc = GetCC();
+            StripeCreditCardInfo cc = GetValidCreditCard();
             StripeCharge charge = _payment.Charge(5001, "usd", cc, "Test partial refund");
             Console.WriteLine(charge.ID);
             StripeCharge refund = _payment.Refund(charge.ID, 2499);
@@ -100,7 +104,7 @@ namespace Tests.XamarinStripe
             StripeCustomer customer_info = _payment.GetCustomer(customer_id);
             Console.WriteLine(customer_info);
             StripeCustomerInfo info_update = new StripeCustomerInfo();
-            info_update.Card = GetCC();
+            info_update.Card = GetValidCreditCard();
             StripeCustomer update_resp = _payment.UpdateCustomer(customer_id, info_update);
             Console.Write("Customer updated with CC. Press ENTER to continue...");
             Console.Out.Flush();
@@ -117,7 +121,6 @@ namespace Tests.XamarinStripe
             List<StripeCharge> charges = _payment.GetCharges(0, 10);
             Console.WriteLine(charges.Count);
         }
-
         [Test]
         public void GetCustomers()
         {
@@ -128,42 +131,42 @@ namespace Tests.XamarinStripe
         [Test]
         public void CreateGetToken()
         {
-            StripeCreditCardToken tok = _payment.CreateToken(GetCC());
+            StripeCreditCardToken tok = _payment.CreateToken(GetValidCreditCard());
             StripeCreditCardToken tok2 = _payment.GetToken(tok.ID);
         }
 
         [Test]
         public void CreatePlanGetPlan()
         {
-            StripePlan plan = CreatePlan(_payment);
+            var plan = CreatePlan(_payment);
             int total;
-            List<StripePlan> plans = _payment.GetPlans(10, 10, out total);
+            var plans = _payment.GetPlans(10, 10, out total);
             Console.WriteLine(total);
         }
 
         public static StripePlan CreatePlan(StripePayment payment)
         {
             StripePlan plan = payment.CreatePlan(GetPlanInfo());
-            StripePlan plan2 = payment.GetPlan(plan.ID);
+            StripePlan plan2 = payment.GetPlan(plan.Id);
             //DeletePlan (plan2, _payment);
             return plan2;
         }
 
         public static StripePlan DeletePlan(StripePlan plan, StripePayment payment)
         {
-            var deleted = payment.DeletePlan(plan.ID);
+            var deleted = payment.DeletePlan(plan.Id);
             return deleted;
         }
 
         [Test]
         public void CreateSubscription()
         {
-            StripeCustomer cust = _payment.CreateCustomer(new StripeCustomerInfo { Card = GetCC() });
+            StripeCustomer cust = _payment.CreateCustomer(new StripeCustomerInfo { Card = GetValidCreditCard() });
             //StripePlan temp = new StripePlan { ID = "myplan" };
             //DeletePlan (temp, _payment);
             StripePlan plan = CreatePlan(_payment);
             StripeSubscription sub = _payment.Subscribe(
-                cust.Id, new StripeSubscriptionInfo { Card = GetCC(), Plan = "myplan", Prorate = true });
+                cust.Id, new StripeSubscriptionInfo { Card = GetValidCreditCard(), Plan = "myplan", Prorate = true });
 
             StripeSubscription sub2 = _payment.GetSubscription(sub.CustomerID);
 
@@ -177,15 +180,36 @@ namespace Tests.XamarinStripe
         }
 
         [Test]
+        public void StripeInvoiceItemUpdateInfo_ReportsWhenCustomerIdIsSupplied_ItShouldNotBe()
+        {
+
+            StripeCustomer cust = _payment.CreateCustomer(new StripeCustomerInfo());
+            StripeInvoiceItemInfo info = GetInvoiceItemInfo();
+            info.CustomerId = cust.Id;
+
+            StripeInvoiceItem item = _payment.CreateInvoiceItem(info);
+
+            StripeInvoiceItemUpdateInfo updateInfo = GetInvoiceItemUpdateInfo();
+            updateInfo.Description = "Invoice item: " + Guid.NewGuid().ToString();
+            updateInfo.CustomerId = cust.Id;
+            
+            var msg = Assert.Throws<ArgumentException>( () => _payment.UpdateInvoiceItem(item.Id, updateInfo)).Message;
+            Assert.That(msg, Is.StringContaining("CustomerId should not be supplied"));
+        }
+
+        [Test]
         public void CreateInvoiceItems()
         {
             StripeCustomer cust = _payment.CreateCustomer(new StripeCustomerInfo());
             StripeInvoiceItemInfo info = GetInvoiceItemInfo();
             info.CustomerId = cust.Id;
+
             StripeInvoiceItem item = _payment.CreateInvoiceItem(info);
-            StripeInvoiceItemInfo newInfo = GetInvoiceItemInfo();
-            newInfo.Description = "Invoice item: " + Guid.NewGuid().ToString();
-            StripeInvoiceItem item2 = _payment.UpdateInvoiceItem(item.Id, newInfo);
+
+            StripeInvoiceItemUpdateInfo updateInfo = GetInvoiceItemUpdateInfo();
+            updateInfo.Description = "Invoice item: " + Guid.NewGuid().ToString();
+            StripeInvoiceItem item2 = _payment.UpdateInvoiceItem(item.Id, updateInfo);
+
             StripeInvoiceItem item3 = _payment.GetInvoiceItem(item2.Id);
             //if (item.Description == item3.Description) throw new Exception("Update failed");
             Assert.AreNotEqual(item.Description, item3.Description, "Update failed");
@@ -205,10 +229,19 @@ namespace Tests.XamarinStripe
         [Test]
         public void Invoices()
         {
-            List<StripeInvoice> invoices = _payment.GetInvoices(10, 10);
+            List<StripeInvoice> invoices = _payment.GetInvoices(1, 2);
+            var plans = _payment.GetPlans(0, 1);
+
+            Assert.IsTrue(invoices.Count > 0);
+            Assert.IsTrue(plans.Count > 0);
+
             StripeInvoice inv = _payment.GetInvoice(invoices[0].ID);
             StripeCustomer cust = _payment.CreateCustomer(new StripeCustomerInfo());
-            StripeSubscription sub = _payment.Subscribe(cust.Id, new StripeSubscriptionInfo { Card = GetCC() });
+            StripeSubscription sub = _payment.Subscribe(cust.Id, new StripeSubscriptionInfo
+                {
+                    Plan = plans[0].Id,
+                    Card = GetValidCreditCard()
+                });
             StripeInvoice inv2 = _payment.GetUpcomingInvoice(cust.Id);
             _payment.Unsubscribe(cust.Id, true);
             _payment.DeleteCustomer(cust.Id);
@@ -217,24 +250,28 @@ namespace Tests.XamarinStripe
         [Test]
         public void Invoices2()
         {
-            StripeCustomer cust = _payment.GetCustomer("cus_ulcOcy5Seu2dpq");
-            StripePlanInfo planInfo = new StripePlanInfo
+            var customerJustCreated = _payment.CreateCustomer(new StripeCustomerInfo());
+
+            var cust = _payment.GetCustomer(customerJustCreated.Id);
+            var planInfo = new StripePlanInfo
             {
                 Amount = 1999,
-                ID = "testplan",
-                Interval = StripePlanInterval.Month,
+                ID = "testplan" + DateTime.Now.Ticks,
+                Interval = StripePlanInterval.month,
                 Name = "The Test Plan",
                 //TrialPeriod = 7
             };
-            //_payment.DeletePlan (planInfo.ID);
+
             StripePlan plan = _payment.CreatePlan(planInfo);
-            StripeSubscriptionInfo subInfo = new StripeSubscriptionInfo { Card = GetCC(), Plan = planInfo.ID, Prorate = true };
+            StripeSubscriptionInfo subInfo = new StripeSubscriptionInfo { Card = GetValidCreditCard(), Plan = planInfo.ID, Prorate = true };
             StripeSubscription sub = _payment.Subscribe(cust.Id, subInfo);
             _payment.CreateInvoiceItem(
                 new StripeInvoiceItemInfo { CustomerId = cust.Id, Amount = 1337, Description = "Test single charge" });
 
             int total;
             List<StripeInvoice> invoices = _payment.GetInvoices(0, 10, cust.Id, out total);
+            Assert.IsNotEmpty(invoices);
+
             StripeInvoice upcoming = _payment.GetUpcomingInvoice(cust.Id);
             _payment.Unsubscribe(cust.Id, true);
             _payment.DeletePlan(planInfo.ID);
@@ -243,6 +280,7 @@ namespace Tests.XamarinStripe
                 Console.WriteLine("{0} for type {1}", line.Amount, line.GetType());
             }
 
+            _payment.DeletePlan(planInfo.ID);
         }
 
         [Test]
@@ -254,8 +292,70 @@ namespace Tests.XamarinStripe
             var sub = JsonConvert.DeserializeObject<StripeSubscription>(json);
 
             //if (sub.Status != StripeSubscriptionStatus.PastDue) throw new Exception("Failed to deserialize `StripeSubscriptionStatus.PastDue`");
-            Assert.IsTrue(sub.Status == StripeSubscriptionStatus.PastDue, "Failed to deserialize `StripeSubscriptionStatus.PastDue`");
+            Assert.IsTrue(sub.Status == StripeSubscriptionStatus.past_due, "Failed to deserialize `StripeSubscriptionStatus.PastDue`");
             string json2 = JsonConvert.SerializeObject(sub);
         }
+
+        [Test]
+        public void DeserializeStripeChargeCollection()
+        {
+            var data =
+                @" 
+{
+  ""count"": 7,
+  ""data"": [
+    {
+      ""amount_refunded"": 5001,
+      ""description"": ""Test charge"",
+      ""created"": 1341283214,
+      ""fee_details"": [
+        {
+          ""type"": ""stripe_fee"",
+          ""description"": ""Stripe processing fees"",
+          ""currency"": ""usd"",
+          ""amount"": 175,
+          ""application"": null
+        }
+      ],
+      ""object"": ""charge"",
+      ""fee"": 175,
+      ""currency"": ""usd"",
+      ""disputed"": false,
+      ""failure_message"": null,
+      ""paid"": true,
+      ""livemode"": false,
+      ""invoice"": null,
+      ""amount"": 5001,
+      ""customer"": null,
+      ""refunded"": true,
+      ""id"": ""ch_y3hRCSOrlDEQOO"",
+      ""card"": {
+        ""type"": ""Visa"",
+        ""address_line1_check"": null,
+        ""address_state"": null,
+        ""exp_month"": 9,
+        ""address_country"": null,
+        ""exp_year"": 2013,
+        ""object"": ""card"",
+        ""address_line1"": null,
+        ""cvc_check"": ""pass"",
+        ""address_line2"": null,
+        ""name"": null,
+        ""fingerprint"": ""MjkuavAYKoQdUg20"",
+        ""address_zip_check"": null,
+        ""address_zip"": null,
+        ""country"": ""US"",
+        ""last4"": ""4242""
+      }
+    }
+  ]
+}
+";
+            var result = JsonConvert.DeserializeObject<StripeChargeCollection>(data);
+            Assert.IsNotEmpty(result.ToList());
+            Assert.That(result.ToList()[0].FeeDetails.Count, Is.EqualTo(1));
+            Assert.That(result.ToList()[0].Card.Type, Is.EqualTo("Visa"));
+        }
+
     }
 }

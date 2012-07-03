@@ -34,7 +34,7 @@ namespace Xamarin.Payments.Stripe
         public bool? Deleted { get; set; }
 
         [JsonProperty(PropertyName = "id")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "identifier")]
         public string Identifier { get; set; }
@@ -52,6 +52,6 @@ namespace Xamarin.Payments.Stripe
         public StripeObject Object { get; set; }
 
         [JsonProperty(PropertyName = "trial_period_days")]
-        public int TrialPeriod { get; set; }
+        public int? TrialPeriod { get; set; }
     }
 }

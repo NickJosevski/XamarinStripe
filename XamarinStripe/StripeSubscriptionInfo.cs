@@ -37,6 +37,9 @@ namespace Xamarin.Payments.Stripe
 
         public virtual void UrlEncode(StringBuilder sb)
         {
+            if (string.IsNullOrEmpty(Plan))
+                throw new InvalidOperationException("Must supply a plan when using StripeSubscriptionInfo");
+
             sb.AppendFormat("plan={0}&", HttpUtility.UrlEncode(Plan));
             if (!string.IsNullOrEmpty(Coupon)) sb.AppendFormat("coupon={0}&", HttpUtility.UrlEncode(Coupon));
             if (Prorate.HasValue) sb.AppendFormat("prorate={0}&", Prorate.Value.ToString(CultureInfo.InvariantCulture).ToLowerInvariant());

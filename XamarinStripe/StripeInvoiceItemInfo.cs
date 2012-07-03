@@ -39,6 +39,33 @@ namespace Xamarin.Payments.Stripe
                 HttpUtility.UrlEncode(CustomerId),
                 Amount,
                 HttpUtility.UrlEncode(Currency ?? "usd"));
+
+            if (!string.IsNullOrEmpty(Description)) sb.AppendFormat("description={0}&", HttpUtility.UrlEncode(Description));
+        }
+    }
+
+    public class StripeInvoiceItemUpdateInfo : IUrlEncoderInfo
+    {
+        public string CustomerId { get; set; }
+
+        public int Amount { get; set; }
+
+        public string Currency { get; set; }
+
+        public string Description { get; set; }
+
+        public virtual void UrlEncode(StringBuilder sb)
+        {
+            if (!string.IsNullOrEmpty(Currency))
+                throw new ArgumentException("Cannot change currency via InvoiceItemUpdate");
+
+            if (!string.IsNullOrEmpty(CustomerId))
+                throw new ArgumentException("CustomerId should not be supplied when performing InvoiceItemUpdate");
+
+            sb.AppendFormat(
+                "amount={0}&",
+                Amount);
+
             if (!string.IsNullOrEmpty(Description)) sb.AppendFormat("description={0}&", HttpUtility.UrlEncode(Description));
         }
     }

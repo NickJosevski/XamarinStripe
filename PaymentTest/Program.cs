@@ -74,6 +74,11 @@ namespace PaymentTest
                 { Amount = 1999, Description = "Invoice item: " + Guid.NewGuid().ToString() };
         }
 
+        private static StripeInvoiceItemUpdateInfo GetInvoiceItemUpdateInfo()
+        {
+            return new StripeInvoiceItemUpdateInfo { Amount = 1999, Description = "Invoice item: " + Guid.NewGuid().ToString() };
+        }
+
         private static void TestSimpleCharge(StripePayment payment)
         {
             StripeCreditCardInfo cc = GetCC();
@@ -192,9 +197,9 @@ namespace PaymentTest
             StripeInvoiceItemInfo info = GetInvoiceItemInfo();
             info.CustomerId = cust.Id;
             StripeInvoiceItem item = payment.CreateInvoiceItem(info);
-            StripeInvoiceItemInfo newInfo = GetInvoiceItemInfo();
-            newInfo.Description = "Invoice item: " + Guid.NewGuid().ToString();
-            StripeInvoiceItem item2 = payment.UpdateInvoiceItem(item.Id, newInfo);
+            StripeInvoiceItemUpdateInfo updateInfo = GetInvoiceItemUpdateInfo();
+            updateInfo.Description = "Invoice item: " + Guid.NewGuid().ToString();
+            StripeInvoiceItem item2 = payment.UpdateInvoiceItem(item.Id, updateInfo);
             StripeInvoiceItem item3 = payment.GetInvoiceItem(item2.Id);
             if (item.Description == item3.Description) throw new Exception("Update failed");
             StripeInvoiceItem deleted = payment.DeleteInvoiceItem(item2.Id);

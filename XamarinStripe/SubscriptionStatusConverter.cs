@@ -42,7 +42,7 @@ namespace Xamarin.Payments.Stripe
 
             if (value == PastDue)
             {
-                return StripeSubscriptionStatus.PastDue;
+                return StripeSubscriptionStatus.past_due;
             }
 
             return Enum.Parse(typeof(StripeSubscriptionStatus), value);
@@ -50,7 +50,7 @@ namespace Xamarin.Payments.Stripe
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if ((StripeSubscriptionStatus)value == StripeSubscriptionStatus.PastDue)
+            if ((StripeSubscriptionStatus)value == StripeSubscriptionStatus.past_due)
             {
                 writer.WriteValue(PastDue);
             }
