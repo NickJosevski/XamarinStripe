@@ -29,7 +29,102 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe
 {
-    public class StripePayment
+    public interface IStripePayment
+    {
+        StripeCharge Charge(int amountInCents, string currency, string customer, string description);
+
+        StripeCharge Charge(int amountInCents, string currency, StripeCreditCardInfo card, string description);
+
+        StripeCharge GetCharge(string chargeId);
+
+        List<StripeCharge> GetCharges();
+
+        List<StripeCharge> GetCharges(int offset, int count);
+
+        List<StripeCharge> GetCharges(int offset, int count, string customerId);
+
+        List<StripeCharge> GetCharges(int offset, int count, string customerId, out int total);
+
+        StripeCharge Refund(string chargeId);
+
+        StripeCharge Refund(string chargeId, int amount);
+
+        StripeCustomer CreateCustomer(StripeCustomerInfo customer);
+
+        StripeCustomer UpdateCustomer(string id, StripeCustomerInfo customer);
+
+        StripeCustomer GetCustomer(string customerId);
+
+        List<StripeCustomer> GetCustomers();
+
+        List<StripeCustomer> GetCustomers(int offset, int count);
+
+        List<StripeCustomer> GetCustomers(int offset, int count, out int total);
+
+        StripeCustomer DeleteCustomer(string customerId);
+
+        StripeCreditCardToken CreateToken(StripeCreditCardInfo card);
+
+        StripeCreditCardToken GetToken(string tokenId);
+
+        StripePlan CreatePlan(StripePlanInfo plan);
+
+        StripePlan GetPlan(string planId);
+
+        StripePlan DeletePlan(string planId);
+
+        List<StripePlan> GetPlans();
+
+        List<StripePlan> GetPlans(int offset, int count);
+
+        List<StripePlan> GetPlans(int offset, int count, out int total);
+
+        StripeSubscription Subscribe(string customerId, StripeSubscriptionInfo subscription);
+
+        StripeSubscription GetSubscription(string customerId);
+
+        StripeSubscription Unsubscribe(string customerId, bool atPeriodEnd);
+
+        StripeInvoiceItem CreateInvoiceItem(StripeInvoiceItemInfo item);
+
+        StripeInvoiceItem GetInvoiceItem(string invoiceItemId);
+
+        StripeInvoiceItem UpdateInvoiceItem(string invoiceItemId, StripeInvoiceItemUpdateInfo item);
+
+        StripeInvoiceItem DeleteInvoiceItem(string invoiceItemId);
+
+        List<StripeInvoiceItem> GetInvoiceItems();
+
+        List<StripeInvoiceItem> GetInvoiceItems(int offset, int count);
+
+        List<StripeInvoiceItem> GetInvoiceItems(int offset, int count, string customerId);
+
+        List<StripeInvoiceItem> GetInvoiceItems(int offset, int count, string customerId, out int total);
+
+        StripeInvoice GetInvoice(string invoiceId);
+
+        List<StripeInvoice> GetInvoices();
+
+        List<StripeInvoice> GetInvoices(int offset, int count);
+
+        List<StripeInvoice> GetInvoices(int offset, int count, string customerId);
+
+        List<StripeInvoice> GetInvoices(int offset, int count, string customerId, out int total);
+
+        StripeInvoice GetUpcomingInvoice(string customerId);
+
+        StripeCoupon CreateCoupon(StripeCouponInfo coupon);
+
+        StripeCoupon GetCoupon(string couponId);
+
+        StripeCoupon DeleteCoupon(string couponId);
+
+        List<StripeCoupon> GetCoupons();
+
+        List<StripeCoupon> GetCoupons(int offset, int count, out int total);
+    }
+
+    public class StripePayment : IStripePayment
     {
         private const string ApiEndpoint = "https://api.stripe.com/v1";
 

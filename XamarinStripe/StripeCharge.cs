@@ -57,6 +57,9 @@ namespace Xamarin.Payments.Stripe
         [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
 
+        [JsonProperty(PropertyName = "failure_message ")]
+        public string FailureMessage { get; set; }
+
         [JsonProperty(PropertyName = "currency")]
         public string Currency { get; set; }
 
