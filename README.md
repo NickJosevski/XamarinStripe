@@ -17,6 +17,9 @@ XamarinStripe provides .NET bindings to process online payments with Stripe.com.
 	
 3. 
 	JSON deserialization relevant changes have been made to classes that are created as part of deserialization including public enums now matching the case and format of the API.
+
+4. 
+   It's strongly named, this is how we need it.
 	
 
 ## Licencse		
