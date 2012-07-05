@@ -69,6 +69,8 @@ namespace Xamarin.Payments.Stripe
 
         StripePlan CreatePlan(StripePlanInfo plan);
 
+        bool PlanExists(string planId);
+
         StripePlan GetPlan(string planId);
 
         StripePlan DeletePlan(string planId);
@@ -448,6 +450,26 @@ namespace Xamarin.Payments.Stripe
             var ep = string.Format("{0}/plans", ApiEndpoint);
             var json = DoRequest(ep, "POST", str.ToString());
             return JsonConvert.DeserializeObject<StripePlan>(json);
+        }
+
+        public bool PlanExists(string planId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(planId)) throw new ArgumentNullException("planId");
+
+                var ep = string.Format("{0}/plans/{1}", ApiEndpoint, HttpUtility.UrlEncode(planId));
+                var json = DoRequest(ep);
+                var result = JsonConvert.DeserializeObject<StripePlan>(json);
+                return result.Id == planId;
+            }
+            catch (StripeException exception)
+            {
+                var se = exception.StripeError;
+                if (se.Message.Contains("No such plan") && se.ErrorType == "invalid_request_error") return false;
+
+                throw;
+            }
         }
 
         public StripePlan GetPlan(string planId)

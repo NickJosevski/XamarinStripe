@@ -24,7 +24,7 @@ namespace Xamarin.Payments.Stripe
 {
     public class StripePlanInfo : IUrlEncoderInfo
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         public int Amount { get; set; }
 
@@ -40,7 +40,7 @@ namespace Xamarin.Payments.Stripe
         {
             sb.AppendFormat(
                 "id={0}&amount={1}&currency={2}&interval={3}&name={4}&",
-                HttpUtility.UrlEncode(ID),
+                HttpUtility.UrlEncode(Id),
                 Amount,
                 HttpUtility.UrlEncode(Currency ?? "usd"),
                 HttpUtility.UrlEncode(Interval.ToString().ToLower()),

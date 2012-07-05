@@ -38,7 +38,7 @@ namespace Tests.XamarinStripe
             return new StripePlanInfo
             {
                 Amount = 1999,
-                ID = "myplan" + DateTime.Now.Ticks,
+                Id = "myplan" + DateTime.Now.Ticks,
                 Interval = StripePlanInterval.month,
                 Name = "My standard plan",
                 TrialPeriod = 7
@@ -159,6 +159,43 @@ namespace Tests.XamarinStripe
         }
 
         [Test]
+        public void AttemptToRetrieveNonExistantPlan()
+        {
+            // Arrange
+            var randomId = "Should-Not-Exist" + Guid.NewGuid() + DateTime.Now.Ticks;
+
+            // Act
+            var ex = Assert.Throws<StripeException>(() => _payment.GetPlan(randomId));
+
+            // Assert
+            Assert.That(ex.StripeError.Message, Is.StringContaining("No such plan"));
+            Assert.That(ex.StripeError.ErrorType, Is.StringContaining("invalid_request_error"));
+        }
+
+        [Test]
+        public void CheckIfPlanExists_FalseForRandomPlan()
+        {
+            // Arrange
+            var randomId = "Should-Not-Exist--" + Guid.NewGuid() + DateTime.Now.Ticks;
+
+            // Act && Assert
+            Assert.IsFalse(_payment.PlanExists(randomId));
+        }
+
+        [Test]
+        public void CheckIfPlanExists_TrueForOneJustCreated()
+        {
+            // Arrange
+            var id = "P-" + Guid.NewGuid();
+            var planToCreate = GetPlanInfo();
+            planToCreate.Id = id;
+            var plan = _payment.CreatePlan(planToCreate);
+
+            // Act && Assert
+            Assert.IsTrue(_payment.PlanExists(id));
+        }
+
+        [Test]
         public void CreateSubscription()
         {
             StripeCustomer cust = _payment.CreateCustomer(new StripeCustomerInfo { Card = GetValidCreditCard() });
@@ -256,14 +293,14 @@ namespace Tests.XamarinStripe
             var planInfo = new StripePlanInfo
             {
                 Amount = 1999,
-                ID = "testplan" + DateTime.Now.Ticks,
+                Id = "testplan" + DateTime.Now.Ticks,
                 Interval = StripePlanInterval.month,
                 Name = "The Test Plan",
                 //TrialPeriod = 7
             };
 
             StripePlan plan = _payment.CreatePlan(planInfo);
-            StripeSubscriptionInfo subInfo = new StripeSubscriptionInfo { Card = GetValidCreditCard(), Plan = planInfo.ID, Prorate = true };
+            StripeSubscriptionInfo subInfo = new StripeSubscriptionInfo { Card = GetValidCreditCard(), Plan = planInfo.Id, Prorate = true };
             StripeSubscription sub = _payment.Subscribe(cust.Id, subInfo);
             _payment.CreateInvoiceItem(
                 new StripeInvoiceItemInfo { CustomerId = cust.Id, Amount = 1337, Description = "Test single charge" });
@@ -274,13 +311,13 @@ namespace Tests.XamarinStripe
 
             StripeInvoice upcoming = _payment.GetUpcomingInvoice(cust.Id);
             _payment.Unsubscribe(cust.Id, true);
-            _payment.DeletePlan(planInfo.ID);
+            _payment.DeletePlan(planInfo.Id);
             foreach (StripeInvoiceLineItem line in upcoming)
             {
                 Console.WriteLine("{0} for type {1}", line.Amount, line.GetType());
             }
 
-            _payment.DeletePlan(planInfo.ID);
+            _payment.DeletePlan(planInfo.Id);
         }
 
         [Test]
