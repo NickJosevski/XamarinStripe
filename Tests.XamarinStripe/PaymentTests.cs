@@ -18,19 +18,20 @@ namespace Tests.XamarinStripe
         private StripePayment _payment;
 
         [SetUp]
-        public void bla()
+        public void Setup()
         {
             _payment = new StripePayment("opWnpofZHJ9tqEnGszFZTfZAmHKmz9Yz");
         }
 
         public static StripeCreditCardInfo GetValidCreditCard()
         {
-            StripeCreditCardInfo cc = new StripeCreditCardInfo();
-            cc.CVC = "123";
-            cc.ExpirationMonth = DateTime.Now.Month + 2;
-            cc.ExpirationYear = DateTime.Now.Year + 1;
-            cc.Number = "4242424242424242";
-            return cc;
+            return new StripeCreditCardInfo
+                {
+                    CVC = "123",
+                    ExpirationMonth = DateTime.Now.Month + 2,
+                    ExpirationYear = DateTime.Now.Year + 1,
+                    Number = "4242424242424242"
+                };
         }
 
         public static StripePlanInfo GetPlanInfo()
@@ -292,7 +293,7 @@ namespace Tests.XamarinStripe
             var cust = _payment.GetCustomer(customerJustCreated.Id);
             var planInfo = new StripePlanInfo
             {
-                Amount = 1999,
+                Amount = 2048,
                 Id = "testplan" + DateTime.Now.Ticks,
                 Interval = StripePlanInterval.month,
                 Name = "The Test Plan",
@@ -311,7 +312,6 @@ namespace Tests.XamarinStripe
 
             StripeInvoice upcoming = _payment.GetUpcomingInvoice(cust.Id);
             _payment.Unsubscribe(cust.Id, true);
-            _payment.DeletePlan(planInfo.Id);
             foreach (StripeInvoiceLineItem line in upcoming)
             {
                 Console.WriteLine("{0} for type {1}", line.Amount, line.GetType());
