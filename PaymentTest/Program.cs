@@ -61,8 +61,8 @@ namespace PaymentTest
             return new StripePlanInfo
                 {
                     Amount = 1999,
-                    ID = "myplan",
-                    Interval = StripePlanInterval.Month,
+                    Id = "myplan",
+                    Interval = StripePlanInterval.month,
                     Name = "My standard plan",
                     TrialPeriod = 7
                 };
@@ -84,11 +84,11 @@ namespace PaymentTest
             StripeCreditCardInfo cc = GetCC();
             StripeCharge charge = payment.Charge(5001, "usd", cc, "Test charge");
             Console.WriteLine(charge);
-            string charge_id = charge.ID;
+            string charge_id = charge.Id;
             StripeCharge charge_info = payment.GetCharge(charge_id);
             Console.WriteLine(charge_info);
 
-            StripeCharge refund = payment.Refund(charge_info.ID);
+            StripeCharge refund = payment.Refund(charge_info.Id);
             Console.WriteLine(refund.Created);
         }
 
@@ -96,8 +96,8 @@ namespace PaymentTest
         {
             StripeCreditCardInfo cc = GetCC();
             StripeCharge charge = payment.Charge(5001, "usd", cc, "Test partial refund");
-            Console.WriteLine(charge.ID);
-            StripeCharge refund = payment.Refund(charge.ID, 2499);
+            Console.WriteLine(charge.Id);
+            StripeCharge refund = payment.Refund(charge.Id, 2499);
             Console.WriteLine(refund.Amount);
         }
 
@@ -146,7 +146,7 @@ namespace PaymentTest
         private static void TestCreateGetToken(StripePayment payment)
         {
             StripeCreditCardToken tok = payment.CreateToken(GetCC());
-            StripeCreditCardToken tok2 = payment.GetToken(tok.ID);
+            StripeCreditCardToken tok2 = payment.GetToken(tok.Id);
         }
 
         private static void TestCreatePlanGetPlan(StripePayment payment)
@@ -160,21 +160,21 @@ namespace PaymentTest
         private static StripePlan CreatePlan(StripePayment payment)
         {
             StripePlan plan = payment.CreatePlan(GetPlanInfo());
-            StripePlan plan2 = payment.GetPlan(plan.ID);
+            StripePlan plan2 = payment.GetPlan(plan.Id);
             //DeletePlan (plan2, payment);
             return plan2;
         }
 
         private static StripePlan DeletePlan(StripePlan plan, StripePayment payment)
         {
-            StripePlan deleted = payment.DeletePlan(plan.ID);
+            StripePlan deleted = payment.DeletePlan(plan.Id);
             return deleted;
         }
 
         private static void TestCreateSubscription(StripePayment payment)
         {
             StripeCustomer cust = payment.CreateCustomer(new StripeCustomerInfo { Card = GetCC() });
-            //StripePlan temp = new StripePlan { ID = "myplan" };
+            //StripePlan temp = new StripePlan { Id = "myplan" };
             //DeletePlan (temp, payment);
             StripePlan plan = CreatePlan(payment);
             StripeSubscription sub = payment.Subscribe(
@@ -214,7 +214,7 @@ namespace PaymentTest
         private static void TestInvoices(StripePayment payment)
         {
             List<StripeInvoice> invoices = payment.GetInvoices(10, 10);
-            StripeInvoice inv = payment.GetInvoice(invoices[0].ID);
+            StripeInvoice inv = payment.GetInvoice(invoices[0].Id);
             StripeCustomer cust = payment.CreateCustomer(new StripeCustomerInfo());
             StripeSubscription sub = payment.Subscribe(cust.Id, new StripeSubscriptionInfo { Card = GetCC() });
             StripeInvoice inv2 = payment.GetUpcomingInvoice(cust.Id);
@@ -228,15 +228,15 @@ namespace PaymentTest
             StripePlanInfo planInfo = new StripePlanInfo
                 {
                     Amount = 1999,
-                    ID = "testplan",
-                    Interval = StripePlanInterval.Month,
+                    Id = "testplan",
+                    Interval = StripePlanInterval.month,
                     Name = "The Test Plan",
                     //TrialPeriod = 7
                 };
-            //payment.DeletePlan (planInfo.ID);
+            //payment.DeletePlan (planInfo.Id);
             StripePlan plan = payment.CreatePlan(planInfo);
             StripeSubscriptionInfo subInfo = new StripeSubscriptionInfo
-                { Card = GetCC(), Plan = planInfo.ID, Prorate = true };
+                { Card = GetCC(), Plan = planInfo.Id, Prorate = true };
             StripeSubscription sub = payment.Subscribe(cust.Id, subInfo);
             payment.CreateInvoiceItem(
                 new StripeInvoiceItemInfo { CustomerId = cust.Id, Amount = 1337, Description = "Test single charge" });
@@ -245,7 +245,7 @@ namespace PaymentTest
             List<StripeInvoice> invoices = payment.GetInvoices(0, 10, cust.Id, out total);
             StripeInvoice upcoming = payment.GetUpcomingInvoice(cust.Id);
             payment.Unsubscribe(cust.Id, true);
-            payment.DeletePlan(planInfo.ID);
+            payment.DeletePlan(planInfo.Id);
             foreach (StripeInvoiceLineItem line in upcoming)
             {
                 Console.WriteLine("{0} for type {1}", line.Amount, line.GetType());
@@ -259,7 +259,7 @@ namespace PaymentTest
   ""status"": ""past_due"",
 }";
             StripeSubscription sub = JsonConvert.DeserializeObject<StripeSubscription>(json);
-            if (sub.Status != StripeSubscriptionStatus.PastDue) throw new Exception("Failed to deserialize `StripeSubscriptionStatus.PastDue`");
+            if (sub.Status != StripeSubscriptionStatus.past_due) throw new Exception("Failed to deserialize `StripeSubscriptionStatus.PastDue`");
             string json2 = JsonConvert.SerializeObject(sub);
         }
     }

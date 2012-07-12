@@ -43,7 +43,7 @@ namespace Xamarin.Payments.Stripe
         public bool Live { get; set; }
 
         [JsonProperty(PropertyName = "id")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "card")]
         public StripeCard Card { get; set; }

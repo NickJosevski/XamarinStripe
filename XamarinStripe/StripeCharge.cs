@@ -49,7 +49,7 @@ namespace Xamarin.Payments.Stripe
         public List<StripeFeeDetails> FeeDetails { get; set; }
 
         [JsonProperty(PropertyName = "id")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "livemode")]
         public bool LiveMode { get; set; }

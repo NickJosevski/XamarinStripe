@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentTest", "PaymentTest\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.XamarinStripe", "Tests.XamarinStripe\Tests.XamarinStripe.csproj", "{9E2190C2-E142-4ABF-B533-0255FD82CB2D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stripe.Web", "Stripe.Web\Stripe.Web.csproj", "{05BA1E53-7AB4-4163-911D-149B62EBEE47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,16 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{05BA1E53-7AB4-4163-911D-149B62EBEE47}.Release|x86.ActiveCfg = Release|Any CPU
 		{218CF4C2-C457-43E4-9D1B-0880D10181FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{218CF4C2-C457-43E4-9D1B-0880D10181FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{218CF4C2-C457-43E4-9D1B-0880D10181FF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

@@ -75,7 +75,7 @@ namespace Xamarin.Payments.Stripe
 
         public virtual void UrlEncode(StringBuilder sb)
         {
-            if (Card != null) sb.AppendFormat("card={0}&", HttpUtility.UrlEncode(Coupon));
+            if (Card != null) sb.AppendFormat("card={0}&", HttpUtility.UrlEncode(Card));
             if (Coupon != null) sb.AppendFormat("coupon={0}&", HttpUtility.UrlEncode(Coupon));
             if (Email != null) sb.AppendFormat("email={0}&", HttpUtility.UrlEncode(Email));
             if (Description != null) sb.AppendFormat("description={0}&", HttpUtility.UrlEncode(Description));

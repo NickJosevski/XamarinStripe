@@ -62,11 +62,11 @@ namespace Tests.XamarinStripe
             StripeCreditCardInfo cc = GetValidCreditCard();
             StripeCharge charge = _payment.Charge(5001, "usd", cc, "Test charge");
             Console.WriteLine(charge);
-            string charge_id = charge.ID;
+            string charge_id = charge.Id;
             StripeCharge charge_info = _payment.GetCharge(charge_id);
             Console.WriteLine(charge_info);
 
-            StripeCharge refund = _payment.Refund(charge_info.ID);
+            StripeCharge refund = _payment.Refund(charge_info.Id);
             Console.WriteLine(refund.Created);
         }
 
@@ -75,8 +75,8 @@ namespace Tests.XamarinStripe
         {
             StripeCreditCardInfo cc = GetValidCreditCard();
             StripeCharge charge = _payment.Charge(5001, "usd", cc, "Test partial refund");
-            Console.WriteLine(charge.ID);
-            StripeCharge refund = _payment.Refund(charge.ID, 2499);
+            Console.WriteLine(charge.Id);
+            StripeCharge refund = _payment.Refund(charge.Id, 2499);
             Console.WriteLine(refund.Amount);
         }
 
@@ -93,6 +93,28 @@ namespace Tests.XamarinStripe
             
             //if (ci2.Deleted == false) throw new Exception("Failed to delete " + customer_id);
             Assert.IsTrue(ci2.Deleted, "Failed to delete " + customer_id);
+        }
+
+
+        [Test]
+        public void CustomerFromToken()
+        {
+            try
+            {
+                var customer = new StripeCustomerTokenInfo
+                {
+                    Card = "tok_4gQRfVkJaYXPOl",
+                    Email = "nick@picnicsoftware.com"
+                };
+
+                var customer_resp = _payment.CreateCustomer(customer);
+
+                string customer_id = customer_resp.Id;
+            }
+            catch (Exception ex)
+            {
+                var m = ex.Message;
+            }
         }
 
         [Test]
@@ -133,7 +155,7 @@ namespace Tests.XamarinStripe
         public void CreateGetToken()
         {
             StripeCreditCardToken tok = _payment.CreateToken(GetValidCreditCard());
-            StripeCreditCardToken tok2 = _payment.GetToken(tok.ID);
+            StripeCreditCardToken tok2 = _payment.GetToken(tok.Id);
         }
 
         [Test]
@@ -200,7 +222,7 @@ namespace Tests.XamarinStripe
         public void CreateSubscription()
         {
             StripeCustomer cust = _payment.CreateCustomer(new StripeCustomerInfo { Card = GetValidCreditCard() });
-            //StripePlan temp = new StripePlan { ID = "myplan" };
+            //StripePlan temp = new StripePlan { Id = "myplan" };
             //DeletePlan (temp, _payment);
             StripePlan plan = CreatePlan(_payment);
             StripeSubscription sub = _payment.Subscribe(
@@ -273,7 +295,7 @@ namespace Tests.XamarinStripe
             Assert.IsTrue(invoices.Count > 0);
             Assert.IsTrue(plans.Count > 0);
 
-            StripeInvoice inv = _payment.GetInvoice(invoices[0].ID);
+            StripeInvoice inv = _payment.GetInvoice(invoices[0].Id);
             StripeCustomer cust = _payment.CreateCustomer(new StripeCustomerInfo());
             StripeSubscription sub = _payment.Subscribe(cust.Id, new StripeSubscriptionInfo
                 {

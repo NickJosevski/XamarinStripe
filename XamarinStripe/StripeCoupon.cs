@@ -37,7 +37,7 @@ namespace Xamarin.Payments.Stripe
         public StripeCouponDuration Duration { get; set; }
 
         [JsonProperty(PropertyName = "id")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "percent_off")]
         public int PercentOff { get; set; }

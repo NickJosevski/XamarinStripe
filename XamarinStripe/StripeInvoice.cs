@@ -42,7 +42,7 @@ namespace Xamarin.Payments.Stripe
         public StripeObject Object { get; set; }
 
         [JsonProperty(PropertyName = "id")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "attempted")]
         public bool Attempted { get; set; }
