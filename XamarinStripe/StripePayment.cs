@@ -51,6 +51,8 @@ namespace Xamarin.Payments.Stripe
 
         StripeCustomer CreateCustomer(StripeCustomerInfo customer);
 
+        StripeCustomer CreateCustomer(StripeCustomerTokenInfo customer);
+
         StripeCustomer UpdateCustomer(string id, StripeCustomerInfo customer);
 
         StripeCustomer GetCustomer(string customerId);
@@ -356,6 +358,24 @@ namespace Xamarin.Payments.Stripe
             var ep = string.Format(format, ApiEndpoint, HttpUtility.UrlEncode(id));
             var json = DoRequest(ep, "POST", str.ToString());
             return JsonConvert.DeserializeObject<StripeCustomer>(json);
+        }
+
+        private StripeCustomer CreateCustomerWithToken(string id, StripeCustomerTokenInfo customer)
+        {
+            var str = UrlEncode(customer);
+
+            var format = "{0}/customers"; // Create
+            if (id != null) format = "{0}/customers/{1}"; // Update
+            var ep = string.Format(format, ApiEndpoint, HttpUtility.UrlEncode(id));
+            var json = DoRequest(ep, "POST", str.ToString());
+            return JsonConvert.DeserializeObject<StripeCustomer>(json);
+        }
+
+        public StripeCustomer CreateCustomer(StripeCustomerTokenInfo customer)
+        {
+            if (customer == null) throw new ArgumentNullException("customer");
+
+            return CreateCustomerWithToken(null, customer);
         }
 
         public StripeCustomer CreateCustomer(StripeCustomerInfo customer)
